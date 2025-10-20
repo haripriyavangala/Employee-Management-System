@@ -33,20 +33,6 @@ It allows users to **Add**, **Edit**, **Delete**, **Search**, and **Sort Employe
 
 ---
 
-employee-management-system/
-│
-├── app.py                  # Main Flask backend
-├── employees.db            # SQLite Database (auto-created)
-│
-├── static/
-│   └── style.css           # CSS file for styling
-│
-├── templates/
-│   ├── index.html          # Home page (Employee list)
-│   ├── edit_employee.html  # Edit employee form
-│
-└── README.md
-
 Create a virtual environment: python -m venv venv
 
 Activate the environment:
