@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+
+        <h1>Employee Management System</h1><br><br>
+
+        <!-- Add Employee Form -->
+        <form method="POST" action="/add">
+            <input type="text" name="name" placeholder="Enter Name" required>
+            <input type="text" name="role" placeholder="Enter Role" required>
+            <input type="number" name="salary" placeholder="Enter Salary" required>
+            <button type="submit">Add Employee</button>
+        </form>
+
+        <!-- Search + Sort + Show All -->
+        <form method="GET" action="/" style="margin-top: 15px;">
+            <input type="text" name="search" placeholder="Search by ID, name, role, or salary" value="{{ search_query }}">
+            <select name="sort">
+                <option value="id" {% if request.args.get('sort') == 'id' %}selected{% endif %}>Sort by ID</option>
+                <option value="name" {% if request.args.get('sort') == 'name' %}selected{% endif %}>Sort by Name</option>
+                <option value="role" {% if request.args.get('sort') == 'role' %}selected{% endif %}>Sort by Role</option>
+                <option value="salary" {% if request.args.get('sort') == 'salary' %}selected{% endif %}>Sort by Salary</option>
+            </select>
+            <button type="submit">Apply</button>
+
+            {% if show_all %}
+                <a href="/show_all" class="show-all-btn">Show All Employees</a>
+            {% endif %}
+        </form>
+
+        <h3>Total Employees: {{ total }}</h3>
+
+        <!-- Employee Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Salary</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for emp in employees %}
+                <tr>
+                    <td>{{ emp.id }}</td>
+                    <td>{{ emp.name }}</td>
+                    <td>{{ emp.role }}</td>
+                    <td>{{ emp.salary }}</td>
+                    <td>
+                        <a href="/edit/{{ emp.id }}">Edit</a> |
+                        <a href="/delete/{{ emp.id }}" onclick="return confirm('Delete this employee?');">Delete</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" style="text-align:center;">No employees found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Optional Styling for Show All Button -->
+    <style>
+        .show-all-btn {
+    background: linear-gradient(90deg, #007bff, #00bfff);
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.show-all-btn:hover {
+    background: linear-gradient(135deg, #0056b3, #0097cc);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 150, 255, 0.4);
+}
+
+    </style>
+
+</body>
+</html>
